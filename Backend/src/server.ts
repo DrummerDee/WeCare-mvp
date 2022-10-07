@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(
   session({
-    secret: "daddylonglegs",
+    secret: "daddy-long-legs",
     resave: true,
     saveUninitialized: true,
   })

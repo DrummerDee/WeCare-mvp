@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+
+
 const user = new mongoose.Schema({
   username: {
     type: String,
@@ -19,5 +21,7 @@ const user = new mongoose.Schema({
     default: true,
   }
 });
+
+
 
 export default mongoose.model("User", user);
