@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React,{useState} from 'react'
 import axios from 'axios';
 
 const Login = () => {
@@ -13,7 +13,7 @@ const Login = () => {
   },{
     withCredentials: true
   }).then(res => {
-    console.log(res.data)
+    console.log(res)
   })
 }
 
@@ -21,7 +21,8 @@ const getUser = () => {
   axios.get('http://localhost:3030/user',{
     withCredentials: true
   }).then(res => {
-    console.log(res.data)
+    console.log(res)
+    
   })
 }
   return (

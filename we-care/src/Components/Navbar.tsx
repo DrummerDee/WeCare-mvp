@@ -1,15 +1,39 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {Link} from 'react-router-dom';
+import { auth } from '../Pages/Context';
+import Axios from 'axios'
 
 export const Navbar = () => {
+  const cxt = useContext(auth)
+
+  {/*logout function */}
+  const loggout = () => {
+    Axios.get('http://localhost:3030/logout', {
+      withCredentials:true
+    }).then(res => {
+        console.log(res)  
+    })
+}
   return (
-    <nav>
-        <ul>
-            <li><Link to='/'>Home</Link></li>
-            <li><Link to='/register'>Sign Up</Link></li>
-            <li><Link to='/about'> About Us </Link></li>
-            <li><Link to='/contact'>Contact Us</Link></li>
-        </ul>
-    </nav>
+    <header>
+      {/* if user exist, show homepage, profile, etc. If not show landing,about & contact page */}
+      {cxt ? (
+        <>
+          <Link to='/clients'> Clients </Link>
+          <Link to='/profile'> Profile </Link>
+          <Link to='/welcome'> Welcome </Link>
+          <Link onClick={loggout} to='/logout'> Logout </Link>
+          {cxt.isAdmin ? <Link to='/admin'> Admin </Link> : null}
+          </>
+      ) : (
+        <>
+            <Link to='/register'>Sign Up</Link>
+            <Link to='/about'> About Us </Link>
+            <Link to='/contact'>Contact Us</Link>
+            </>
+      )
+      }
+      <Link to='/'>Home</Link>
+    </header>
   )
 }
