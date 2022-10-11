@@ -6,12 +6,12 @@ import Axios from 'axios'
 export const Navbar = () => {
   const cxt = useContext(auth)
 
-  {/*logout function */}
+  
   const loggout = () => {
     Axios.get('http://localhost:3030/logout', {
       withCredentials:true
     }).then(res => {
-        console.log(res)  
+      if(res.status === 200) return window.location.href = '/'
     })
 }
   return (

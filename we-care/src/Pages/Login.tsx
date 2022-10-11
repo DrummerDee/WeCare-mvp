@@ -13,18 +13,18 @@ const Login = () => {
   },{
     withCredentials: true
   }).then(res => {
-    console.log(res)
+    if(res.status === 200) return window.location.href = '/welcome'
   })
 }
 
-const getUser = () => {
-  axios.get('http://localhost:3030/user',{
-    withCredentials: true
-  }).then(res => {
-    console.log(res)
+// const getUser = () => {
+//   axios.get('http://localhost:3030/user',{
+//     withCredentials: true
+//   }).then(res => {
+//     console.log(res)
     
-  })
-}
+//   })
+// }
   return (
     <>
     <section>
@@ -39,7 +39,6 @@ const getUser = () => {
                     </div>
                     <div>
                     <button onClick={Login}> Login </button>
-                    <button onClick={getUser}> Get User </button>
                     </div>
 
                     
