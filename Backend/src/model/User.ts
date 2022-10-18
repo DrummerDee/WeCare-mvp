@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-
-
 const user = new mongoose.Schema({
   username: {
     type: String,
@@ -11,14 +9,6 @@ const user = new mongoose.Schema({
   isAdmin: {
     type: Boolean,
     default: false,
-  },
-  isEmployee: {
-    type: Boolean,
-    default: false,
-  },
-  isUser: {
-    type: Boolean,
-    default: true,
   }
 });
 

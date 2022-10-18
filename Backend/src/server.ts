@@ -6,14 +6,14 @@ import session from "express-session";
 import passport from "passport";
 import passportLocal from "passport-local";
 import cookieParser from "cookie-parser";
-import "dotenv/config";
-import User from "./User";
-import { UserInterface } from "./UserInterface";
+import * as dotenv from 'dotenv';
+import User from "./model/User";
+import { UserInterface } from "./config/UserInterface";
 
+dotenv.config()
 //connect mongo database
 mongoose
-  .connect(
-    "mongodb+srv://DrummerDee:codeWillProvide@cluster1.eaesbrh.mongodb.net/?retryWrites=true&w=majority",
+  .connect( process.env.REACT_APP_MONGO_URI ?? '',
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -46,7 +46,7 @@ app.use(passport.session());
 const LocalStrategy = passportLocal.Strategy;
 passport.use(
   new LocalStrategy((username, password, done) => {
-    User.findOne({ username: username }, (err: Error, user: any) => {
+    User.findOne({ username}, (err: Error, user: any) => {
       if (err) throw err;
       if (!user) return done(null, false);
       bcrypt.compare(password, user.password, (err, result) => {
@@ -60,6 +60,21 @@ passport.use(
     });
   })
 );
+// persist user data (after successful authentication) into session
+passport.serializeUser((user:any, cb) => {
+  cb(null, user.id)
+})
+// used to retrieve user data from session
+passport.deserializeUser((id:string,cb) => {
+  User.findOne({_id:id}, (err: Error,user:any) => {
+    const userInformation = {
+      username: user.username,
+      isAdmin: user.isAdmin
+    }
+    cb(err, userInformation)
+  })
+})
+
 //Routes
 app.post("/register", async (req, res) => {
   const {username, password} = req.body
@@ -69,8 +84,8 @@ app.post("/register", async (req, res) => {
     if (!doc) {
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = new User({
-        username,
-        hashedPassword,
+        username: username,
+        password: hashedPassword,
       });
       await newUser.save();
       res.send("User created");
@@ -78,15 +93,35 @@ app.post("/register", async (req, res) => {
   });
 });
 
-app.post('/login', passport.authenticate('local'), (req,res)=> {
+app.post('/login', passport.authenticate('local'), (req,res) => {
 res.send('Successfully Authenticated');
 });
 
-app.get('/user', (req,res)=>{
+app.get('/user', (req,res) => {
     res.send(req.user)
 })
+app.get('/logout', (req,res, next) => {
+  req.logout((err) => {
+    if(err) return err
+  });
+  res.send('Nice! Log out complete')
+  res.redirect('/')
+})
+/* This will be the routes for the admin to look and handle at all of the employees */
+// app.get('/roaster',async (req,res) => {
+//   await User.find({}, (err: Error, data: UserInterface[]) => {
+//     if(err) throw err
+//     res.send(data)
+//   })
+// })
 
-
+// app.post('/deleteEmployee', async (req,res) => {
+//   const {id} = req.body;
+//   await User.findByIdAndDelete(id, (err:Error) => {
+//     if(err) throw err
+//   })
+//   res.send('User deleted')
+// })
 app.listen(3030, () => {
   console.log("Listening on the server");
 });
