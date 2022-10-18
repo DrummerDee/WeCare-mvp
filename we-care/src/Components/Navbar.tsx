@@ -1,7 +1,9 @@
 import React, {useContext} from 'react'
+import '../Styles/Global.scss';
 import {Link} from 'react-router-dom';
 import { auth } from '../Pages/Context';
 import Axios from 'axios'
+
 
 export const Navbar = () => {
   const cxt = useContext(auth)
@@ -15,7 +17,7 @@ export const Navbar = () => {
     })
 }
   return (
-    <header>
+    <header className ='nav'>
       {/* if user exist, show homepage, profile, etc. If not show landing,about & contact page */}
       {cxt ? (
         <>

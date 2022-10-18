@@ -1,12 +1,12 @@
-import React, { useContext } from 'react'
-import { auth } from './Context'
+import React from 'react'
+import '../Styles/homepage.scss';
+
 
 const Landing = () => {
-const cxt = useContext(auth)
-console.log(cxt)
+
   return (
     <>
-      <main>
+      <main className='main'>
         <h1> Welcome to WeCare Healthcare Services </h1>
       </main>
     </>

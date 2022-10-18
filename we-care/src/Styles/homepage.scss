@@ -1,0 +1,26 @@
+$primary-color: white;
+$primary-secondary: #5353b4;
+$primary-tresandary: #a8a8f7;
+
+.main{
+    height: 100vh;
+    background-image: url('../Assests/Images/homepage-bg.jpeg');
+    background-position: center center;
+    background-size: cover;
+    overflow: hidden;
+    color: $primary-color;
+    font-size: 2.5rem;
+    text-align: center;
+}
+// .main:after {
+//     content: '';
+//     position: absolute;
+//     top: 0; left: 0;
+//     width: 100%;
+//     height: 100vh;
+//     background-color:rgba(0,0,0,0.2);
+//   }
+// .main > * {
+//     position : relative;
+//     z-index:2;
+//   }
